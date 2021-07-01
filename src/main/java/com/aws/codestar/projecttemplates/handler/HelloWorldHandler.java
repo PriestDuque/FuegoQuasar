@@ -17,6 +17,12 @@ public class HelloWorldHandler implements RequestHandler<Object, Object> {
     public Object handleRequest(final Object input, final Context context) {
         Map<String, String> headers = new HashMap<>();
         headers.put("Content-Type", "application/json");
-        return new GatewayResponse(new JSONObject().put("Output", "Hello World!").toString(), headers, 200);
+        return new GatewayResponse(new JSONObject().put("Output", "{\n" +
+                " \"position\":{\n" +
+                "\t\"x\":-100.0,\n" +
+                "\t\"y\":75.5\n" +
+                " },\n" +
+                " \"message\":\"este es un mensaje secreto\"\n" +
+                "}").toString(), headers, 200);
     }
 }
