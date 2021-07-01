@@ -13,10 +13,10 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
- * Tests for {@link HelloWorldHandler}. Modify the tests in order to support your use case as you build your project.
+ * Tests for {@link FuegoQuasarHandler}. Modify the tests in order to support your use case as you build your project.
  */
-@DisplayName("Tests for HelloWorldHandler")
-public class HelloWorldHandlerTest {
+@DisplayName("Tests for FuegoQuasarHandler")
+public class FuegoQuasarHandlerTest {
 
     private static final String EXPECTED_CONTENT_TYPE = "application/json";
     private static final String EXPECTED_RESPONSE_VALUE = "Hello World!";
@@ -47,7 +47,7 @@ public class HelloWorldHandlerTest {
     }
 
     /**
-     * Basic test to verify the result obtained when calling {@link HelloWorldHandler} successfully.
+     * Basic test to verify the result obtained when calling {@link FuegoQuasarHandler} successfully.
      */
     @Test
     @DisplayName("Basic test for request handler")
