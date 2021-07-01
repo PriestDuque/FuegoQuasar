@@ -52,7 +52,7 @@ public class FuegoQuasarHandlerTest {
     @Test
     @DisplayName("Basic test for request handler")
     void testHandleRequest() {
-        GatewayResponse response = (GatewayResponse) new HelloWorldHandler().handleRequest(input, mockLambdaContext);
+        GatewayResponse response = (GatewayResponse) new FuegoQuasarHandler().handleRequest(input, mockLambdaContext);
 
         // Verify the response obtained matches the values we expect.
         JSONObject jsonObjectFromResponse = new JSONObject(response.getBody());
