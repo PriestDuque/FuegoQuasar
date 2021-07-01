@@ -19,7 +19,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class FuegoQuasarHandlerTest {
 
     private static final String EXPECTED_CONTENT_TYPE = "application/json";
-    private static final String EXPECTED_RESPONSE_VALUE = "Hello World!";
+    private static final String EXPECTED_RESPONSE_VALUE = "{\n" +
+            " \"position\":{\n" +
+            "\t\"x\":-100.0,\n" +
+            "\t\"y\":75.5\n" +
+            " },\n" +
+            " \"message\":\"este es un mensaje secreto\"\n" +
+            "}";
     private static final int EXPECTED_STATUS_CODE_SUCCESS = 200;
 
     // A mock class for com.amazonaws.services.lambda.runtime.Context
