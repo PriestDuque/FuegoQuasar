@@ -28,7 +28,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: !Sub 'awscodestar-${ProjectId}-lambda-GetHelloWorld'
-      Handler: com.aws.codestar.projecttemplates.handler.FuegoQuasarHandler
+      Handler: com.aws.quasar.handler.FuegoQuasarHandler
       Runtime: java11
       Role:
         Fn::GetAtt:
@@ -41,11 +41,11 @@ Resources:
             Path: /
             Method: get
 
-  PostHelloWorld:
+  PostTopSecret:
     Type: AWS::Serverless::Function
     Properties:
-      FunctionName: !Sub 'awscodestar-${ProjectId}-lambda-PostHelloWorld'
-      Handler: com.aws.codestar.projecttemplates.handler.FuegoQuasarHandler
+      FunctionName: !Sub 'awscodestar-${ProjectId}-lambda-PostTopSecret'
+      Handler: com.aws.quasar.handler.FuegoQuasarHandler
       Runtime: java11
       Role:
         Fn::GetAtt:
@@ -55,7 +55,23 @@ Resources:
         PostEvent:
           Type: Api
           Properties:
-            Path: /
+            Path: /topsecret
+            Method: post
+  PostTopSecreSplit:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: !Sub 'awscodestar-${ProjectId}-lambda-PostTopSecreSplit'
+      Handler: com.aws.quasar.handler.FuegoQuasarSplitHandler
+      Runtime: java11
+      Role:
+        Fn::GetAtt:
+          - LambdaExecutionRole
+          - Arn
+      Events:
+        PostEvent:
+          Type: Api
+          Properties:
+            Path: /topsecret_split
             Method: post
   LambdaExecutionRole:
     Description: Creating service role in IAM for AWS Lambda

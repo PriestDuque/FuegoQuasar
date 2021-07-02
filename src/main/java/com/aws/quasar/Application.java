@@ -1,4 +1,4 @@
-package com.aws.codestar.projecttemplates;
+package com.aws.quasar;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

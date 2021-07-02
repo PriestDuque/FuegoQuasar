@@ -1,8 +1,8 @@
-package com.aws.codestar.projecttemplates.handler;
+package com.aws.quasar.handler;
 
 import com.amazonaws.serverless.proxy.internal.testutils.MockLambdaContext;
 
-import com.aws.codestar.projecttemplates.GatewayResponse;
+import com.aws.quasar.GatewayResponse;
 
 import org.json.JSONObject;
 import org.junit.jupiter.api.AfterAll;
@@ -19,13 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class FuegoQuasarHandlerTest {
 
     private static final String EXPECTED_CONTENT_TYPE = "application/json";
-    private static final String EXPECTED_RESPONSE_VALUE = "{\n" +
-            " \"position\":{\n" +
-            "\t\"x\":-100.0,\n" +
-            "\t\"y\":75.5\n" +
-            " },\n" +
-            " \"message\":\"este es un mensaje secreto\"\n" +
-            "}";
+    private static final String EXPECTED_RESPONSE_VALUE = "{\"position\":\"kenobi\",\"message\":\"[este, , , mensaje, ]\"}";
     private static final int EXPECTED_STATUS_CODE_SUCCESS = 200;
 
     // A mock class for com.amazonaws.services.lambda.runtime.Context
@@ -58,7 +52,8 @@ public class FuegoQuasarHandlerTest {
     @Test
     @DisplayName("Basic test for request handler")
     void testHandleRequest() {
-        GatewayResponse response = (GatewayResponse) new FuegoQuasarHandler().handleRequest(input, mockLambdaContext);
+
+        GatewayResponse response = (GatewayResponse) new FuegoQuasarHandler().handleRequest("{\"satelites\":[{\"name\":\"kenobi\",\"distance\":100.0,\"message\":[\"este\", \"\", \"\", \"mensaje\", \"\"]},{\"name\":\"skywalker\",\"distance\":115.5,\"message\":[\"\", \"es\", \"\", \"\", \"secreto\"]},{\"name\":\"sato\",\"distance\":142.7,\"message\":[\"este\", \"\", \"un\", \"\", \"\"]}]}", mockLambdaContext);
 
         // Verify the response obtained matches the values we expect.
         JSONObject jsonObjectFromResponse = new JSONObject(response.getBody());
