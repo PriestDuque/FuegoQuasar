@@ -16,7 +16,7 @@ public class Descifrador {
     private String respuesta;
 
     public String descifrarCompleto(String input){
-        ObjectMapper objectMapper = new ObjectMapper();
+       /* ObjectMapper objectMapper = new ObjectMapper();
         Map<String, List> mapStr;
 
         //read json file and convert to customer object
@@ -29,10 +29,10 @@ public class Descifrador {
             e.printStackTrace();
         }
 
+*/
 
 
-
-        return respuesta;
+        return "Hola";
     }
 
     public String descifrarIndividual(String input){
