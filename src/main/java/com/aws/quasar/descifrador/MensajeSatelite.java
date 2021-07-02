@@ -1,20 +1,20 @@
 package com.aws.quasar.descifrador;
 
-import java.io.Serializable;
 import java.util.Map;
 
-public class MensajeSatelite implements Serializable {
-
-    private static final long serialVersionUID = 177148879151117826L;
+public class MensajeSatelite {
 
     private String name;
     private double distance;
-    private String message;
+    private String[] message;
+
+    public MensajeSatelite(){
+
+    }
 
     public MensajeSatelite(Map input){
         name=input.get("name").toString();
         distance=Double.parseDouble(input.get("distance").toString());
-        message=input.get("message").toString();
     }
 
     public String getName() {
@@ -33,11 +33,11 @@ public class MensajeSatelite implements Serializable {
         this.distance = distance;
     }
 
-    public String getMessage() {
+    public String[] getMessage() {
         return message;
     }
 
-    public void setMessage(String message) {
+    public void setMessage(String[] message) {
         this.message = message;
     }
 }

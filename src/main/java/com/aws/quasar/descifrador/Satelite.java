@@ -7,6 +7,6 @@ public class Satelite {
     }
 
     public String completarMensaje(MensajeSatelite satelite) {
-        return satelite.getMessage();
+        return "";
     }
 }

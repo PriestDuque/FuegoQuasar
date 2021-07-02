@@ -5,6 +5,7 @@ import com.amazonaws.services.lambda.runtime.RequestHandler;
 
 import com.aws.quasar.GatewayResponse;
 import com.aws.quasar.descifrador.Descifrador;
+import com.aws.quasar.descifrador.Mensaje;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -13,9 +14,9 @@ import java.util.Map;
 /**
  * Handler for requests to Lambda function.
  */
-public class FuegoQuasarHandler implements RequestHandler<Object, Object> {
+public class FuegoQuasarHandler implements RequestHandler<Mensaje, Object> {
 
-    public Object handleRequest(final Object input, final Context context) {
+    public Object handleRequest(final Mensaje input, final Context context) {
         Map<String, String> headers = new HashMap<>();
         headers.put("Content-Type", "application/json");
         return new GatewayResponse(new JSONObject().put("Output", new Descifrador().descifrarCompleto(input.toString())).toString(), headers, 200);

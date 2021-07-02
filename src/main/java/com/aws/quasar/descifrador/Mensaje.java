@@ -4,6 +4,10 @@ public class Mensaje {
 
     private MensajeSatelite[] satelites;
 
+    public Mensaje(){
+
+    }
+
     public MensajeSatelite[] getSatelites() {
         return satelites;
     }
