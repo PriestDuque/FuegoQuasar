@@ -12,11 +12,6 @@ public class MensajeSatelite {
 
     }
 
-    public MensajeSatelite(Map input){
-        name=input.get("name").toString();
-        distance=Double.parseDouble(input.get("distance").toString());
-    }
-
     public String getName() {
         return name;
     }

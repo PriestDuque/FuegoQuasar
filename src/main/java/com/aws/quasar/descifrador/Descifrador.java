@@ -1,14 +1,10 @@
 package com.aws.quasar.descifrador;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.type.CollectionType;
+import com.google.gson.Gson;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 
 public class Descifrador {
@@ -16,18 +12,9 @@ public class Descifrador {
     private String respuesta;
 
     public String descifrarCompleto(String input){
-        ObjectMapper objectMapper = new ObjectMapper();
-        Map<String, List> mapStr;
-
-        //read json file and convert to customer object
-        try {
-            Map<String,List< Object>> data = objectMapper.readValue(input, new TypeReference<Map<String,List<Object>>>(){});
-            //mapStr = objectMapper.readValue(input,data);
-
-            validarSatelite((Map)data.get("satelites").get(0));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        Gson gson=new Gson();
+        Mensaje data = gson.fromJson(input,Mensaje.class);
+        validarSatelite(data.getSatelites()[0]);
         return "Hola";
     }
 
@@ -37,7 +24,7 @@ public class Descifrador {
         MensajeSatelite data = objectMapper.readValue(input, MensajeSatelite.class);
         //mapStr = objectMapper.readValue(input,data);
 
-            validarSatelite((Map)data);
+            validarSatelite(data);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -48,8 +35,7 @@ public class Descifrador {
 
     }
 
-    private void validarSatelite(Map object){
-        MensajeSatelite satelite=new MensajeSatelite(object);
+    private void validarSatelite(MensajeSatelite satelite){
         String position=new Satelite().triangularPosicion(satelite);
         String message=new Satelite().completarMensaje(satelite);
         if(position!=null && message!=null){
