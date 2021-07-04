@@ -28,7 +28,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: !Sub 'awscodestar-${ProjectId}-lambda-GetTopSecreSplit'
-      Handler:  com.aws.quasar.handler.FuegoQuasarSplitHandler
+      Handler:  com.aws.quasar.handler.FuegoQuasarSplitGetHandler
       Runtime: java11
       Role:
         Fn::GetAtt:
@@ -57,11 +57,11 @@ Resources:
           Properties:
             Path: /topsecret
             Method: post
-  PostTopSecreSplit:
+  PostTopSecreSplitKenobi:
     Type: AWS::Serverless::Function
     Properties:
-      FunctionName: !Sub 'awscodestar-${ProjectId}-lambda-PostTopSecreSplit'
-      Handler: com.aws.quasar.handler.FuegoQuasarSplitHandler
+      FunctionName: !Sub 'awscodestar-${ProjectId}-lambda-PostTopSecretKenobiSplit'
+      Handler: com.aws.quasar.handler.FuegoQuasarSplitKenobiHandler
       Runtime: java11
       Role:
         Fn::GetAtt:
@@ -71,7 +71,39 @@ Resources:
         PostEvent:
           Type: Api
           Properties:
-            Path: /topsecret_split
+            Path: /topsecret_split/kenobi
+            Method: post
+  PostTopSecreSplitSkywalker:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: !Sub 'awscodestar-${ProjectId}-lambda-PostTopSecretSkywalkerSplit'
+      Handler: com.aws.quasar.handler.FuegoQuasarSplitSkywalkerHandler
+      Runtime: java11
+      Role:
+        Fn::GetAtt:
+          - LambdaExecutionRole
+          - Arn
+      Events:
+        PostEvent:
+          Type: Api
+          Properties:
+            Path: /topsecret_split/skywalker
+            Method: post
+  PostTopSecreSplitSato:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: !Sub 'awscodestar-${ProjectId}-lambda-PostTopSecretSatoSplit'
+      Handler: com.aws.quasar.handler.FuegoQuasarSplitSatoHandler
+      Runtime: java11
+      Role:
+        Fn::GetAtt:
+          - LambdaExecutionRole
+          - Arn
+      Events:
+        PostEvent:
+          Type: Api
+          Properties:
+            Path: /topsecret_split/sato
             Method: post
   LambdaExecutionRole:
     Description: Creating service role in IAM for AWS Lambda

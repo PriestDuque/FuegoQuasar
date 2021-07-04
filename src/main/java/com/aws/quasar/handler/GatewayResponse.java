@@ -1,4 +1,4 @@
-package com.aws.quasar;
+package com.aws.quasar.handler;
 
 import java.util.Collections;
 import java.util.HashMap;

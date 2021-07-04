@@ -4,15 +4,21 @@ import com.amazonaws.regions.Region;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
 import com.amazonaws.services.dynamodbv2.document.DynamoDB;
+import com.amazonaws.services.dynamodbv2.document.Index;
 import com.amazonaws.services.dynamodbv2.document.Item;
 import com.amazonaws.services.dynamodbv2.document.Table;
+import com.amazonaws.services.dynamodbv2.document.spec.QuerySpec;
+import com.amazonaws.services.dynamodbv2.model.Select;
 import com.aws.quasar.descifrador.MensajeSatelite;
+
+import java.util.List;
 
 public class DynamoManager {
 
     private static final Regions REGION = Regions.US_EAST_2;
     private final DynamoDB dynamoDb;
     private static final String TABLA_SATELITE = "SATELITE";
+    private static final String IDX_KENOBI = "IDX_KENOBI";
 
     public DynamoManager() {
         AmazonDynamoDBClient client = new AmazonDynamoDBClient();

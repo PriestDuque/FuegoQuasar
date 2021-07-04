@@ -2,8 +2,6 @@ package com.aws.quasar.handler;
 
 import com.amazonaws.serverless.proxy.internal.testutils.MockLambdaContext;
 
-import com.aws.quasar.GatewayResponse;
-
 import org.json.JSONObject;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

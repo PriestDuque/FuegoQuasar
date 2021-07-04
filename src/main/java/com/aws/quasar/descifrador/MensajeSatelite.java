@@ -1,8 +1,13 @@
 package com.aws.quasar.descifrador;
 
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
+
 /**
  * DTO que maneja la informacion de cada satelite
  */
+@DynamoDBTable(tableName = "Satelite")
 public class MensajeSatelite {
 
     private String name;
@@ -19,6 +24,7 @@ public class MensajeSatelite {
         this.setMessage(message);
     }
 
+    @DynamoDBHashKey(attributeName = "Id")
     public String getName() {
         return name;
     }
@@ -27,6 +33,7 @@ public class MensajeSatelite {
         this.name = name;
     }
 
+    @DynamoDBAttribute(attributeName = "Distance")
     public double getDistance() {
         return distance;
     }
@@ -35,6 +42,7 @@ public class MensajeSatelite {
         this.distance = distance;
     }
 
+    @DynamoDBAttribute(attributeName = "Distance")
     public String[] getMessage() {
         return message;
     }
