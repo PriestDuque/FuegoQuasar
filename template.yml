@@ -27,8 +27,8 @@ Resources:
   GetHelloWorld:
     Type: AWS::Serverless::Function
     Properties:
-      FunctionName: !Sub 'awscodestar-${ProjectId}-lambda-GetHelloWorld'
-      Handler: com.aws.quasar.handler.FuegoQuasarHandler
+      FunctionName: !Sub 'awscodestar-${ProjectId}-lambda-GetTopSecreSplit'
+      Handler:  com.aws.quasar.handler.FuegoQuasarSplitHandler
       Runtime: java11
       Role:
         Fn::GetAtt:
@@ -38,7 +38,7 @@ Resources:
         GetEvent:
           Type: Api
           Properties:
-            Path: /
+            Path: /topsecret_split
             Method: get
 
   PostTopSecret:

@@ -1,7 +1,8 @@
 package com.aws.quasar.descifrador;
 
-import java.util.Map;
-
+/**
+ * DTO que maneja la informacion de cada satelite
+ */
 public class MensajeSatelite {
 
     private String name;
@@ -10,6 +11,12 @@ public class MensajeSatelite {
 
     public MensajeSatelite(){
 
+    }
+
+    public MensajeSatelite(String name, double distance,String[] message){
+        this.setName(name);
+        this.setDistance(distance);
+        this.setMessage(message);
     }
 
     public String getName() {
