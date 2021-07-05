@@ -8,18 +8,17 @@ import com.google.gson.Gson;
  */
 public class ProcesadorMensaje {
 
-    private String respuesta;
-
-    public String procesarMensaje(String input) throws DescifradorException, ValidationException {
+    public String procesarMensaje(Mensaje input) throws DescifradorException, ValidationException {
+        String respuesta;
         Posicion posicion;
         String mensaje;
         try {
             Gson gson = new Gson();
-            Mensaje data = gson.fromJson(input, Mensaje.class);
+            //Mensaje data = gson.fromJson(input, Mensaje.class);
             Descifrador descifrador=new Descifrador();
-            MensajeSatelite kenobi=data.getSatelites().get(0);
-            MensajeSatelite skywalker=data.getSatelites().get(1);
-            MensajeSatelite sato=data.getSatelites().get(2);
+            MensajeSatelite kenobi=input.getSatelites().get(0);
+            MensajeSatelite skywalker=input.getSatelites().get(1);
+            MensajeSatelite sato=input.getSatelites().get(2);
             String[][] mensajes=new String[][]{kenobi.getMessage(),skywalker.getMessage(),sato.getMessage()};
             posicion=descifrador.getLocation(kenobi.getDistance(),skywalker.getDistance(),sato.getDistance());
             mensaje=descifrador.getMessage(mensajes);

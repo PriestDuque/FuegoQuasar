@@ -10,10 +10,10 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
- * Tests for {@link FuegoQuasarSplitKenobiHandler}.
+ * Tests for {@link FuegoQuasarSplitSkywalkerHandler}.
  */
-@DisplayName("Tests for FuegoQuasarSplitKenobiHandler")
-class FuegoQuasarSplitKenobiHandlerTest {
+@DisplayName("Tests for FuegoQuasarSplitSkywalkerHandler")
+class FuegoQuasarSplitSkywalkerHandlerTest {
 
     private static final String EXPECTED_CONTENT_TYPE = "application/json";
     private static final int EXPECTED_STATUS_CODE_SUCCESS = 200;
@@ -21,21 +21,20 @@ class FuegoQuasarSplitKenobiHandlerTest {
     private final MockLambdaContext mockLambdaContext = new MockLambdaContext();
 
     @Test
-    @DisplayName("El mensaje que ingresa se guarda en un archivo llamado kenobi")
+    @DisplayName("El mensaje que ingresa se guarda en un archivo llamado skywalker")
     void testHandleRequestCorrecto() throws DescifradorException {
-        String input="{\"distance\":1500,\"message\":[\"este\",\"\",\"\", \"mensaje\",\"\"]}";
-        GatewayResponse response = (GatewayResponse) new FuegoQuasarSplitKenobiHandler().handleRequest(input, mockLambdaContext);
+        String input="{\"distance\":1000,\"message\":[\"\", \"es\", \"\", \"\", \"secreto\"]}";
+        GatewayResponse response = (GatewayResponse) new FuegoQuasarSplitSkywalkerHandler().handleRequest(input, mockLambdaContext);
 
         // Verify the response obtained matches the values we expect.
         JSONObject jsonObjectFromResponse = new JSONObject(response.getBody());
 
-        String kenobi=new ArchivoUtil().leer("kenobi");
+        String skywalker=new ArchivoUtil().leer("skywalker");
 
         assertEquals("OK", jsonObjectFromResponse.get("Output"));
         assertEquals(EXPECTED_CONTENT_TYPE, response.getHeaders().get("Content-Type"));
         assertEquals(EXPECTED_STATUS_CODE_SUCCESS, response.getStatusCode());
-
-        assertEquals("{\"name\":\"kenobi\",\"distance\":1500.0,\"message\":[\"este\",\"\",\"\",\"mensaje\",\"\"]}", kenobi);
+        assertEquals("{\"name\":\"skywalker\",\"distance\":1000.0,\"message\":[\"\",\"es\",\"\",\"\",\"secreto\"]}", skywalker);
     }
 
 }

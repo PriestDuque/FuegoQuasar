@@ -10,10 +10,10 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
- * Tests for {@link FuegoQuasarSplitKenobiHandler}.
+ * Tests for {@link FuegoQuasarSplitGetHandler}.
  */
-@DisplayName("Tests for FuegoQuasarSplitKenobiHandler")
-class FuegoQuasarSplitKenobiHandlerTest {
+@DisplayName("Tests for FuegoQuasarSplitGetHandler")
+class FuegoQuasarSplitGetHandlerTest {
 
     private static final String EXPECTED_CONTENT_TYPE = "application/json";
     private static final int EXPECTED_STATUS_CODE_SUCCESS = 200;
@@ -21,21 +21,23 @@ class FuegoQuasarSplitKenobiHandlerTest {
     private final MockLambdaContext mockLambdaContext = new MockLambdaContext();
 
     @Test
-    @DisplayName("El mensaje que ingresa se guarda en un archivo llamado kenobi")
+    @DisplayName("Se obtiene el resultado de los tres satelites almacenado en los archivos")
     void testHandleRequestCorrecto() throws DescifradorException {
         String input="{\"distance\":1500,\"message\":[\"este\",\"\",\"\", \"mensaje\",\"\"]}";
-        GatewayResponse response = (GatewayResponse) new FuegoQuasarSplitKenobiHandler().handleRequest(input, mockLambdaContext);
+        new FuegoQuasarSplitKenobiHandler().handleRequest(input, mockLambdaContext);
+        input="{\"distance\":632.46,\"message\":[\"este\", \"\", \"un\", \"\", \"\"]}";
+        new FuegoQuasarSplitSatoHandler().handleRequest(input, mockLambdaContext);
+        input="{\"distance\":1000,\"message\":[\"\", \"es\", \"\", \"\", \"secreto\"]}";
+        new FuegoQuasarSplitSkywalkerHandler().handleRequest(input, mockLambdaContext);
+
+        GatewayResponse response = (GatewayResponse) new FuegoQuasarSplitGetHandler().handleRequest(null, mockLambdaContext);
 
         // Verify the response obtained matches the values we expect.
         JSONObject jsonObjectFromResponse = new JSONObject(response.getBody());
 
-        String kenobi=new ArchivoUtil().leer("kenobi");
-
-        assertEquals("OK", jsonObjectFromResponse.get("Output"));
+        assertEquals("{\"position\":{\"x\":700.0,\"y\":700.0},\"message\":\"este es un mensaje secreto\"}", jsonObjectFromResponse.get("Output"));
         assertEquals(EXPECTED_CONTENT_TYPE, response.getHeaders().get("Content-Type"));
         assertEquals(EXPECTED_STATUS_CODE_SUCCESS, response.getStatusCode());
-
-        assertEquals("{\"name\":\"kenobi\",\"distance\":1500.0,\"message\":[\"este\",\"\",\"\",\"mensaje\",\"\"]}", kenobi);
     }
 
 }

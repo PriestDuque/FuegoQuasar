@@ -4,8 +4,10 @@ import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 
 import com.aws.quasar.descifrador.DescifradorException;
+import com.aws.quasar.descifrador.Mensaje;
 import com.aws.quasar.descifrador.ProcesadorMensaje;
 import com.aws.quasar.descifrador.ValidationException;
+import com.google.gson.Gson;
 import org.json.JSONObject;
 import org.springframework.util.StringUtils;
 
@@ -15,7 +17,7 @@ import java.util.Map;
 /**
  * Handler for requests to Lambda function.
  */
-public class FuegoQuasarHandler implements RequestHandler<Object, Object> {
+public class FuegoQuasarHandler implements RequestHandler<Mensaje, Object> {
 
 
     /**
@@ -26,14 +28,14 @@ public class FuegoQuasarHandler implements RequestHandler<Object, Object> {
      * @param context
      * @return respuesta con la ubicacion del a nave y el mensaje
      */
-    public Object handleRequest(final Object input, final Context context) {
+    public Object handleRequest(final Mensaje input, final Context context) {
         Map<String, String> headers = new HashMap<>();
         headers.put("Content-Type", "application/json");
         if(StringUtils.isEmpty(input)){
             return new GatewayResponse(new JSONObject().put("Output","invalid input").toString(), headers, 403);
         }
         try {
-            String res=new ProcesadorMensaje().procesarMensaje(input.toString());
+            String res=new ProcesadorMensaje().procesarMensaje(input);
             if(res!=null) {
                 return new GatewayResponse(new JSONObject().put("Output", res).toString(), headers, 200);
             }else {

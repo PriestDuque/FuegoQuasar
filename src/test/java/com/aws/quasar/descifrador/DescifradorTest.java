@@ -6,7 +6,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 @DisplayName("Tests for Descifrador")
-public class DescifradorTest {
+class DescifradorTest {
 
     @Test
     @DisplayName("Mensaje correcto tres satelites con informacion")

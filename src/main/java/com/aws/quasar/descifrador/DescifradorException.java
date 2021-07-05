@@ -5,7 +5,7 @@ package com.aws.quasar.descifrador;
  */
 public class DescifradorException extends Exception {
 
-    DescifradorException(String message){
+    public DescifradorException(String message){
         super(message);
     }
 }
