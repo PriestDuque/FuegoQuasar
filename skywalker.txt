@@ -1,1 +1,0 @@
-{"name":"skywalker","distance":1000.0,"message":["","es","","","secreto"]}
