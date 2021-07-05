@@ -21,7 +21,7 @@ public class ArchivoUtil {
         {
             out.write(data);
         } catch (IOException e) {
-            throw new DescifradorException("Error al escribir el satelite"+archivoName);
+            throw new DescifradorException("Error al escribir el satelite "+archivoName+e.getMessage());
         }
     }
 
