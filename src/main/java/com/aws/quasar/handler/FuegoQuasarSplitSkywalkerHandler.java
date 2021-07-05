@@ -23,7 +23,7 @@ public class FuegoQuasarSplitSkywalkerHandler implements RequestHandler<Object, 
         try{
             new ArchivoUtil().escribir("skywalker", gson.toJson(data));
         }catch (DescifradorException e){
-            return new GatewayResponse(new JSONObject().put("Output", "Error").toString(), headers, 403);
+            return new GatewayResponse(new JSONObject().put("Output", "Error: "+e.getMessage()).toString(), headers, 403);
         }
         return new GatewayResponse(new JSONObject().put("Output", "OK").toString(), headers, 200);
     }

@@ -13,8 +13,6 @@ public class ProcesadorMensaje {
         Posicion posicion;
         String mensaje;
         try {
-            Gson gson = new Gson();
-            //Mensaje data = gson.fromJson(input, Mensaje.class);
             Descifrador descifrador=new Descifrador();
             MensajeSatelite kenobi=input.getSatelites().get(0);
             MensajeSatelite skywalker=input.getSatelites().get(1);

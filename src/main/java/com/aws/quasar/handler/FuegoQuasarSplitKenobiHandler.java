@@ -11,19 +11,18 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-public class FuegoQuasarSplitKenobiHandler implements RequestHandler<Object, Object> {
+public class FuegoQuasarSplitKenobiHandler implements RequestHandler<MensajeSatelite, Object> {
 
 
-    public Object handleRequest(final Object input, final Context context) {
+    public Object handleRequest(final MensajeSatelite input, final Context context) {
         Map<String, String> headers = new HashMap<>();
         headers.put("Content-Type", "application/json");
         Gson gson = new Gson();
-        MensajeSatelite data = gson.fromJson(input.toString(), MensajeSatelite.class);
-        data.setName("kenobi");
+        input.setName("kenobi");
         try {
-            new ArchivoUtil().escribir("kenobi", gson.toJson(data));
+            new ArchivoUtil().escribir("kenobi", gson.toJson(input));
         }catch (DescifradorException e){
-            return new GatewayResponse(new JSONObject().put("Output", "Error").toString(), headers, 403);
+            return new GatewayResponse(new JSONObject().put("Output", "Error: "+e.getMessage()).toString(), headers, 403);
         }
         return new GatewayResponse(new JSONObject().put("Output", "OK").toString(), headers, 200);
     }
