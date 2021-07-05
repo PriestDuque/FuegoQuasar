@@ -1,6 +1,8 @@
 package com.aws.quasar.handler;
 
 import com.amazonaws.serverless.proxy.internal.testutils.MockLambdaContext;
+import com.aws.quasar.descifrador.MensajeSatelite;
+import com.google.gson.Gson;
 import org.json.JSONObject;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -19,11 +21,13 @@ class FuegoQuasarSplitGetHandlerTest {
 
     private final MockLambdaContext mockLambdaContext = new MockLambdaContext();
 
+    private Gson gson=new Gson();
+
     @Test
     @DisplayName("Se obtiene el resultado de los tres satelites almacenado en los archivos")
     void testHandleRequestCorrecto() {
         String input="{\"distance\":1500,\"message\":[\"este\",\"\",\"\", \"mensaje\",\"\"]}";
-        new FuegoQuasarSplitKenobiHandler().handleRequest(input, mockLambdaContext);
+        new FuegoQuasarSplitKenobiHandler().handleRequest(gson.fromJson(input, MensajeSatelite.class), mockLambdaContext);
         input="{\"distance\":632.46,\"message\":[\"este\", \"\", \"un\", \"\", \"\"]}";
         new FuegoQuasarSplitSatoHandler().handleRequest(input, mockLambdaContext);
         input="{\"distance\":1000,\"message\":[\"\", \"es\", \"\", \"\", \"secreto\"]}";
@@ -43,7 +47,7 @@ class FuegoQuasarSplitGetHandlerTest {
     @DisplayName("Se obtiene el resultado de los tres satelites almacenado en los archivos")
     void testHandleRequestIncorrecto() {
         String input="{\"distance\":100,\"message\":[\"este\",\"\",\"\", \"mensaje\",\"\"]}";
-        new FuegoQuasarSplitKenobiHandler().handleRequest(input, mockLambdaContext);
+        new FuegoQuasarSplitKenobiHandler().handleRequest(gson.fromJson(input, MensajeSatelite.class), mockLambdaContext);
         input="{\"distance\":142.7,\"message\":[\"este\", \"\", \"un\", \"\", \"\"]}";
         new FuegoQuasarSplitSatoHandler().handleRequest(input, mockLambdaContext);
         input="{\"distance\":115.5,\"message\":[\"\", \"es\", \"\", \"\", \"secreto\"]}";
