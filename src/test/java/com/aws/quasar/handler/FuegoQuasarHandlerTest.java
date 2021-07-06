@@ -38,7 +38,7 @@ class FuegoQuasarHandlerTest {
     @DisplayName("El mensaje que ingresa es correcto y tiene solucion")
     void testHandleRequestCorrecto() {
         String input="{\"satelites\":[{\"name\":\"kenobi\",\"distance\":1500,\"message\":[\"este\", \"\", \"\", \"mensaje\", \"\"]},{\"name\":\"skywalker\",\"distance\":1000,\"message\":[\"\", \"es\", \"\", \"\", \"secreto\"]},{\"name\":\"sato\",\"distance\":632.46,\"message\":[\"este\", \"\", \"un\", \"\", \"\"]}]}";
-        String res= new FuegoQuasarHandler().handleRequest(gson.fromJson(input,Mensaje.class), mockLambdaContext);
+        Object res= new FuegoQuasarHandler().handleRequest(gson.fromJson(input,Mensaje.class), mockLambdaContext);
 
         assertEquals(EXPECTED_RESPONSE_VALUE, res);
     }
@@ -54,7 +54,7 @@ class FuegoQuasarHandlerTest {
 
         Exception exception = Assertions.assertThrows(RuntimeException.class,() -> new FuegoQuasarHandler().handleRequest(gson.fromJson(input,Mensaje.class), mockLambdaContext));
         // Verify the response obtained matches the values we expect.
-        String expectedMessage = "Mensaje indescifrable";
+        String expectedMessage = "404 Mensaje indescifrable";
         String actualMessage = exception.getMessage();
 
         Assert.assertEquals(expectedMessage,actualMessage);
@@ -92,9 +92,9 @@ class FuegoQuasarHandlerTest {
     //@Test
     @DisplayName("El mensaje que ingresa esta incompleto")
     void testHandleRequestFormatoInvalido() {
-        String input="{\"satelites\":[{\"name\":\"kenobi\",\"distance\":100.0,\"message\":[\"este\", \"\", \"\", \"mensaje\", \"\"]},{";
-       String res =  new FuegoQuasarHandler().handleRequest(gson.fromJson(input, Mensaje.class), mockLambdaContext);
+       String input="{\"satelites\":[{\"name\":\"kenobi\",\"distance\":100.0,\"message\":[\"este\", \"\", \"\", \"mensaje\", \"\"]},{";
+       Object res =  new FuegoQuasarHandler().handleRequest(gson.fromJson(input, Mensaje.class), mockLambdaContext);
 
-        assertEquals("java.io.EOFException: End of input at line 1 column 93 path $.satelites[1].", res);
+       assertEquals("java.io.EOFException: End of input at line 1 column 93 path $.satelites[1].", res);
     }
 }

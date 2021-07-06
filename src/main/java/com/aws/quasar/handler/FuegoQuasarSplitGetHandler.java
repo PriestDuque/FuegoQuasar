@@ -5,7 +5,6 @@ import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.aws.quasar.descifrador.*;
 import com.aws.quasar.util.ArchivoUtil;
 import com.google.gson.Gson;
-import org.json.JSONObject;
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
@@ -26,24 +25,17 @@ public class FuegoQuasarSplitGetHandler implements RequestHandler<Object, Object
             satelites.add(gson.fromJson(archivoUtil.leer("skywalker"),MensajeSatelite.class));
             satelites.add(gson.fromJson(archivoUtil.leer("sato"),MensajeSatelite.class));
         }catch (DescifradorException e){
-            return new GatewayResponse(new JSONObject().put("Output",e.getMessage()).toString(), headers, 403);
+            throw new RuntimeException("404 "+e.getMessage(),e);
         }
         Mensaje mensaje=new Mensaje();
         mensaje.setSatelites(satelites);
         if(StringUtils.isEmpty(mensaje)){
-            return new GatewayResponse(new JSONObject().put("Output","invalid input").toString(), headers, 403);
+            throw new RuntimeException("404 invalid input");
         }
         try {
-            String res=new ProcesadorMensaje().procesarMensaje(mensaje);
-            if(res!=null) {
-                return new GatewayResponse(new JSONObject().put("Output", res).toString(), headers, 200);
-            }else {
-                return new GatewayResponse("", headers, 404);
-            }
-        }catch (ValidationException e){
-            return new GatewayResponse(new JSONObject().put("Output",e.getMessage()).toString(), headers, 403);
-        }catch (DescifradorException e){
-            return new GatewayResponse(new JSONObject().put("Output",e.getMessage()).toString(), headers, 404);
+            return new ProcesadorMensaje().procesarMensaje(mensaje);
+        }catch (ValidationException | DescifradorException e){
+            throw new RuntimeException("404 "+e.getMessage(),e);
         }
     }
 }

@@ -7,8 +7,6 @@ import com.aws.quasar.descifrador.DescifradorException;
 import com.aws.quasar.descifrador.Mensaje;
 import com.aws.quasar.descifrador.ProcesadorMensaje;
 import com.aws.quasar.descifrador.ValidationException;
-import com.google.gson.Gson;
-import org.json.JSONObject;
 import org.springframework.util.StringUtils;
 
 import java.util.HashMap;
@@ -28,7 +26,7 @@ public class FuegoQuasarHandler implements RequestHandler<Mensaje, Object> {
      * @param context
      * @return respuesta con la ubicacion del a nave y el mensaje
      */
-    public String handleRequest(final Mensaje input, final Context context) {
+    public Object handleRequest(final Mensaje input, final Context context) {
         Map<String, String> headers = new HashMap<>();
         headers.put("Content-Type", "application/json");
         if(StringUtils.isEmpty(input)){
@@ -37,7 +35,7 @@ public class FuegoQuasarHandler implements RequestHandler<Mensaje, Object> {
         try {
             return new ProcesadorMensaje().procesarMensaje(input);
         }catch (ValidationException | DescifradorException e){
-           throw new RuntimeException(e.getMessage(),e);
+           throw new RuntimeException("404 "+e.getMessage(),e);
         }
     }
 }

@@ -6,7 +6,6 @@ import com.aws.quasar.descifrador.DescifradorException;
 import com.aws.quasar.descifrador.MensajeSatelite;
 import com.aws.quasar.util.ArchivoUtil;
 import com.google.gson.Gson;
-import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -22,8 +21,8 @@ public class FuegoQuasarSplitSatoHandler implements RequestHandler<Object, Objec
         try{
             new ArchivoUtil().escribir("sato", gson.toJson(data));
         }catch (DescifradorException e){
-            return new GatewayResponse(new JSONObject().put("Output", "Error: "+e.getMessage()).toString(), headers, 403);
+            throw new RuntimeException("404 "+e.getMessage(),e);
         }
-        return new GatewayResponse(new JSONObject().put("Output", "OK").toString(), headers, 200);
+        return "200 OK";
     }
 }
