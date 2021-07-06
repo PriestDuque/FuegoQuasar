@@ -32,7 +32,7 @@ class FuegoQuasarSplitGetHandlerTest {
 
         Object response = new FuegoQuasarSplitGetHandler().handleRequest(null, mockLambdaContext);
 
-        assertEquals("{\"position\":{\"x\":700.0,\"y\":700.0},\"message\":\"este es un mensaje secreto\"}", response);
+        assertEquals("{\"position\":{\"x\":700.0,\"y\":700.0},\"message\":\"este es un mensaje secreto\"}", gson.toJson(response));
     }
 
     @Test

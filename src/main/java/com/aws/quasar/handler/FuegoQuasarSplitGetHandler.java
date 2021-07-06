@@ -14,7 +14,7 @@ import java.util.Map;
 
 public class FuegoQuasarSplitGetHandler implements RequestHandler<Object, Object> {
 
-    public Object handleRequest(final Object input, final Context context) {
+    public Respuesta handleRequest(final Object input, final Context context) {
         Map<String, String> headers = new HashMap<>();
         headers.put("Content-Type", "application/json");
         Gson gson = new Gson();

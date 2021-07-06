@@ -3,10 +3,7 @@ package com.aws.quasar.handler;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 
-import com.aws.quasar.descifrador.DescifradorException;
-import com.aws.quasar.descifrador.Mensaje;
-import com.aws.quasar.descifrador.ProcesadorMensaje;
-import com.aws.quasar.descifrador.ValidationException;
+import com.aws.quasar.descifrador.*;
 import org.springframework.util.StringUtils;
 
 import java.util.HashMap;
@@ -26,7 +23,7 @@ public class FuegoQuasarHandler implements RequestHandler<Mensaje, Object> {
      * @param context
      * @return respuesta con la ubicacion del a nave y el mensaje
      */
-    public Object handleRequest(final Mensaje input, final Context context) {
+    public Respuesta handleRequest(final Mensaje input, final Context context) {
         Map<String, String> headers = new HashMap<>();
         headers.put("Content-Type", "application/json");
         if(StringUtils.isEmpty(input)){
@@ -36,7 +33,7 @@ public class FuegoQuasarHandler implements RequestHandler<Mensaje, Object> {
             return new ProcesadorMensaje().procesarMensaje(input);
         }catch (ValidationException | DescifradorException e){
             e.printStackTrace();
-           throw new RuntimeException("404 "+e.getMessage());
+           throw new RuntimeException("404-"+e.getMessage());
         }
     }
 }

@@ -40,7 +40,7 @@ class FuegoQuasarHandlerTest {
         String input="{\"satelites\":[{\"name\":\"kenobi\",\"distance\":1500,\"message\":[\"este\", \"\", \"\", \"mensaje\", \"\"]},{\"name\":\"skywalker\",\"distance\":1000,\"message\":[\"\", \"es\", \"\", \"\", \"secreto\"]},{\"name\":\"sato\",\"distance\":632.46,\"message\":[\"este\", \"\", \"un\", \"\", \"\"]}]}";
         Object res= new FuegoQuasarHandler().handleRequest(gson.fromJson(input,Mensaje.class), mockLambdaContext);
 
-        assertEquals(EXPECTED_RESPONSE_VALUE, res);
+        assertEquals(EXPECTED_RESPONSE_VALUE, gson.toJson(res));
     }
 
 
@@ -54,7 +54,7 @@ class FuegoQuasarHandlerTest {
 
         Exception exception = Assertions.assertThrows(RuntimeException.class,() -> new FuegoQuasarHandler().handleRequest(gson.fromJson(input,Mensaje.class), mockLambdaContext));
         // Verify the response obtained matches the values we expect.
-        String expectedMessage = "404 Mensaje indescifrable";
+        String expectedMessage = "404-Mensaje indescifrable";
         String actualMessage = exception.getMessage();
 
         Assert.assertEquals(expectedMessage,actualMessage);

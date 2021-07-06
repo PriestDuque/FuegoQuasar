@@ -1,15 +1,12 @@
 package com.aws.quasar.descifrador;
 
-import com.google.gson.Gson;
-
 /**
  * Se encarga de procesar el mensaje de entrada y llamar al Descifrador para que nos de la posicion y mensaje que
  * se creara como respuesta
  */
 public class ProcesadorMensaje {
 
-    public String procesarMensaje(Mensaje input) throws DescifradorException, ValidationException {
-        String respuesta;
+    public Respuesta procesarMensaje(Mensaje input) throws DescifradorException, ValidationException {
         Posicion posicion;
         String mensaje;
         try {
@@ -25,11 +22,10 @@ public class ProcesadorMensaje {
         }
 
         if(posicion!=null && mensaje!=null){
-            respuesta=new Gson().toJson(new Respuesta(posicion,mensaje));
+           return new Respuesta(posicion,mensaje);
         }else{
             throw new DescifradorException("Mensaje indescifrable");
         }
-        return respuesta;
     }
 
 }

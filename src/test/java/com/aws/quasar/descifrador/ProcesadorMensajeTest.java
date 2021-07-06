@@ -16,7 +16,7 @@ class ProcesadorMensajeTest {
     void testProcesarMensaje_messageylocationOK() throws DescifradorException, ValidationException {
         String input="{\"satelites\":[{\"name\":\"kenobi\",\"distance\":1500,\"message\":[\"este\", \"\", \"\", \"mensaje\", \"\"]},{\"name\":\"skywalker\",\"distance\":1000,\"message\":[\"\", \"es\", \"\", \"\", \"secreto\"]},{\"name\":\"sato\",\"distance\":632.46,\"message\":[\"este\", \"\", \"un\", \"\", \"\"]}]}";
         ProcesadorMensaje descifrador=new ProcesadorMensaje();
-        String res=descifrador.procesarMensaje(gson.fromJson(input,Mensaje.class));
+        String res=gson.toJson(descifrador.procesarMensaje(gson.fromJson(input,Mensaje.class)));
 
         Assert.assertEquals("{\"position\":{\"x\":700.0,\"y\":700.0},\"message\":\"este es un mensaje secreto\"}",res);
     }

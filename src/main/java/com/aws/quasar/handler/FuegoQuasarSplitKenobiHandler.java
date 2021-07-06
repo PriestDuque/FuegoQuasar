@@ -22,7 +22,7 @@ public class FuegoQuasarSplitKenobiHandler implements RequestHandler<MensajeSate
             new ArchivoUtil().escribir("kenobi", gson.toJson(input));
         }catch (DescifradorException e){
             e.printStackTrace();
-            throw new RuntimeException("404 "+e.getMessage());
+            throw new RuntimeException("404-"+e.getMessage());
         }
         return "200 OK";
     }
