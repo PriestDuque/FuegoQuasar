@@ -15,9 +15,9 @@ public class ArchivoUtil {
      * @param data data a escribir
      */
     public void escribir(String archivoName, String data)throws DescifradorException{
-        File file=new File("/tmp/"+archivoName+".txt");
-        file.getParentFile().mkdirs();
-        try(FileWriter fw = new FileWriter("/tmp/"+archivoName+".txt");
+        /*File file=new File("/tmp/"+archivoName+".txt");
+        file.getParentFile().mkdirs();*/
+        try(FileWriter fw = new FileWriter(archivoName+".txt");
             BufferedWriter bw = new BufferedWriter(fw);
             PrintWriter out = new PrintWriter(bw))
         {
@@ -37,7 +37,7 @@ public class ArchivoUtil {
      */
     public String leer(String archivoName) throws DescifradorException {
         try {
-            BufferedReader bf = new BufferedReader(new FileReader("/tmp/"+archivoName+".txt"));
+            BufferedReader bf = new BufferedReader(new FileReader(archivoName+".txt"));
             String res= bf.readLine();
             bf.close();
             return res;
