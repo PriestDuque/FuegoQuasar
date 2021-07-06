@@ -22,7 +22,8 @@ public class FuegoQuasarSplitSkywalkerHandler implements RequestHandler<Object, 
         try{
             new ArchivoUtil().escribir("skywalker", gson.toJson(data));
         }catch (DescifradorException e){
-            throw new RuntimeException("404 "+e.getMessage(),e);
+            e.printStackTrace();
+            throw new RuntimeException("404 "+e.getMessage());
         }
         return "200 OK";
     }

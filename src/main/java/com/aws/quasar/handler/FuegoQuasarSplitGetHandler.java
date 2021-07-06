@@ -35,7 +35,8 @@ public class FuegoQuasarSplitGetHandler implements RequestHandler<Object, Object
         try {
             return new ProcesadorMensaje().procesarMensaje(mensaje);
         }catch (ValidationException | DescifradorException e){
-            throw new RuntimeException("404 "+e.getMessage(),e);
+            e.printStackTrace();
+            throw new RuntimeException("404 "+e.getMessage());
         }
     }
 }

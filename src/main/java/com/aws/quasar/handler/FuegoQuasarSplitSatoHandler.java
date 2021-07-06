@@ -21,7 +21,8 @@ public class FuegoQuasarSplitSatoHandler implements RequestHandler<Object, Objec
         try{
             new ArchivoUtil().escribir("sato", gson.toJson(data));
         }catch (DescifradorException e){
-            throw new RuntimeException("404 "+e.getMessage(),e);
+            e.printStackTrace();
+            throw new RuntimeException("404 "+e.getMessage());
         }
         return "200 OK";
     }
