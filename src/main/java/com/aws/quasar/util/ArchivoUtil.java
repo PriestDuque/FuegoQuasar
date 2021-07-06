@@ -24,6 +24,7 @@ public class ArchivoUtil {
 
             out.write(data);
         } catch (IOException e) {
+            e.printStackTrace();
             throw new DescifradorException("Error al escribir el satelite "+archivoName+e.getMessage());
         }
     }
@@ -41,6 +42,7 @@ public class ArchivoUtil {
             bf.close();
             return res;
         } catch (IOException e) {
+            e.printStackTrace();
            throw new DescifradorException("Error al leer el satelite"+archivoName);
         }
     }
