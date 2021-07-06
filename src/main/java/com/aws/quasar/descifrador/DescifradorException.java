@@ -8,4 +8,8 @@ public class DescifradorException extends Exception {
     public DescifradorException(String message){
         super(message);
     }
+
+    public DescifradorException(String message, Exception e){
+        super(message, e);
+    }
 }

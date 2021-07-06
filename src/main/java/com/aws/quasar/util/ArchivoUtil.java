@@ -41,7 +41,7 @@ public class ArchivoUtil {
             return res;
         } catch (IOException e) {
             e.printStackTrace();
-           throw new DescifradorException("Error al leer el satelite"+archivoName);
+           throw new DescifradorException("Error al leer el satelite"+archivoName,e);
         }
     }
 }
