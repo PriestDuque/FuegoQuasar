@@ -28,23 +28,16 @@ public class FuegoQuasarHandler implements RequestHandler<Mensaje, Object> {
      * @param context
      * @return respuesta con la ubicacion del a nave y el mensaje
      */
-    public Object handleRequest(final Mensaje input, final Context context) {
+    public String handleRequest(final Mensaje input, final Context context) {
         Map<String, String> headers = new HashMap<>();
         headers.put("Content-Type", "application/json");
         if(StringUtils.isEmpty(input)){
-            return new GatewayResponse(new JSONObject().put("Output","invalid input").toString(), headers, 403);
+            throw new RuntimeException("invalid input");
         }
         try {
-            String res=new ProcesadorMensaje().procesarMensaje(input);
-            if(res!=null) {
-                return new GatewayResponse(new JSONObject().put("Output", res).toString(), headers, 200);
-            }else {
-                return new GatewayResponse("", headers, 404);
-            }
-        }catch (ValidationException e){
-            return new GatewayResponse(new JSONObject().put("Output",e.getMessage()).toString(), headers, 403);
-        }catch (DescifradorException e){
-            return new GatewayResponse(new JSONObject().put("Output",e.getMessage()).toString(), headers, 404);
+            return new ProcesadorMensaje().procesarMensaje(input);
+        }catch (ValidationException | DescifradorException e){
+           throw new RuntimeException(e.getMessage(),e);
         }
     }
 }

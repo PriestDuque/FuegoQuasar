@@ -2,9 +2,12 @@ package com.aws.quasar.handler;
 
 import com.amazonaws.serverless.proxy.internal.testutils.MockLambdaContext;
 
+import com.aws.quasar.descifrador.DescifradorException;
 import com.aws.quasar.descifrador.Mensaje;
 import com.google.gson.Gson;
 import org.json.JSONObject;
+import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -35,13 +38,9 @@ class FuegoQuasarHandlerTest {
     @DisplayName("El mensaje que ingresa es correcto y tiene solucion")
     void testHandleRequestCorrecto() {
         String input="{\"satelites\":[{\"name\":\"kenobi\",\"distance\":1500,\"message\":[\"este\", \"\", \"\", \"mensaje\", \"\"]},{\"name\":\"skywalker\",\"distance\":1000,\"message\":[\"\", \"es\", \"\", \"\", \"secreto\"]},{\"name\":\"sato\",\"distance\":632.46,\"message\":[\"este\", \"\", \"un\", \"\", \"\"]}]}";
-        GatewayResponse response = (GatewayResponse) new FuegoQuasarHandler().handleRequest(gson.fromJson(input,Mensaje.class), mockLambdaContext);
+        String res= new FuegoQuasarHandler().handleRequest(gson.fromJson(input,Mensaje.class), mockLambdaContext);
 
-        // Verify the response obtained matches the values we expect.
-        JSONObject jsonObjectFromResponse = new JSONObject(response.getBody());
-        assertEquals(EXPECTED_RESPONSE_VALUE, jsonObjectFromResponse.get("Output"));
-        assertEquals(EXPECTED_CONTENT_TYPE, response.getHeaders().get("Content-Type"));
-        assertEquals(EXPECTED_STATUS_CODE_SUCCESS, response.getStatusCode());
+        assertEquals(EXPECTED_RESPONSE_VALUE, res);
     }
 
 
@@ -52,13 +51,13 @@ class FuegoQuasarHandlerTest {
     @DisplayName("El mensaje que ingresa es correcto pero no tiene solucion")
     void testHandleRequestFormatoCorrectoSinSolucion() {
         String input="{\"satelites\":[{\"name\":\"kenobi\",\"distance\":100.0,\"message\":[\"este\", \"\", \"\", \"mensaje\", \"\"]},{\"name\":\"skywalker\",\"distance\":115.5,\"message\":[\"\", \"es\", \"\", \"\", \"secreto\"]},{\"name\":\"sato\",\"distance\":142.7,\"message\":[\"este\", \"\", \"un\", \"\", \"\"]}]}";
-        GatewayResponse response = (GatewayResponse) new FuegoQuasarHandler().handleRequest(gson.fromJson(input,Mensaje.class), mockLambdaContext);
 
+        Exception exception = Assertions.assertThrows(RuntimeException.class,() -> new FuegoQuasarHandler().handleRequest(gson.fromJson(input,Mensaje.class), mockLambdaContext));
         // Verify the response obtained matches the values we expect.
-        JSONObject jsonObjectFromResponse = new JSONObject(response.getBody());
-        assertEquals(EXPECTED_INDESCIFRABLE_RESPONSE_VALUE, jsonObjectFromResponse.get("Output"));
-        assertEquals(EXPECTED_CONTENT_TYPE, response.getHeaders().get("Content-Type"));
-        assertEquals(EXPECTED_STATUS_CODE_INDESCIFRABLE, response.getStatusCode());
+        String expectedMessage = "Mensaje indescifrable";
+        String actualMessage = exception.getMessage();
+
+        Assert.assertEquals(expectedMessage,actualMessage);
     }
 
     /**
@@ -68,38 +67,34 @@ class FuegoQuasarHandlerTest {
     @DisplayName("El mensaje que ingresa es nulo")
     void testHandleRequestNull() {
         String input=null;
-        GatewayResponse response = (GatewayResponse) new FuegoQuasarHandler().handleRequest(gson.fromJson(input,Mensaje.class), mockLambdaContext);
+        Exception exception = Assertions.assertThrows(RuntimeException.class,() -> new FuegoQuasarHandler().handleRequest(gson.fromJson(input,Mensaje.class), mockLambdaContext));
 
         // Verify the response obtained matches the values we expect.
-        JSONObject jsonObjectFromResponse = new JSONObject(response.getBody());
-        assertEquals(EXPECTED_ERROR_RESPONSE_VALUE, jsonObjectFromResponse.get("Output"));
-        assertEquals(EXPECTED_CONTENT_TYPE, response.getHeaders().get("Content-Type"));
-        assertEquals(EXPECTED_STATUS_CODE_ERROR, response.getStatusCode());
+        String expectedMessage = "invalid input";
+        String actualMessage = exception.getMessage();
+
+        Assert.assertEquals(expectedMessage,actualMessage);
     }
 
     @Test
     @DisplayName("El mensaje que ingresa esta vacio")
     void testHandleRequestVacio() {
         String input="";
-        GatewayResponse response = (GatewayResponse) new FuegoQuasarHandler().handleRequest(gson.fromJson(input,Mensaje.class), mockLambdaContext);
+        Exception exception = Assertions.assertThrows(RuntimeException.class,() ->  new FuegoQuasarHandler().handleRequest(gson.fromJson(input,Mensaje.class), mockLambdaContext));
 
         // Verify the response obtained matches the values we expect.
-        JSONObject jsonObjectFromResponse = new JSONObject(response.getBody());
-        assertEquals(EXPECTED_ERROR_RESPONSE_VALUE, jsonObjectFromResponse.get("Output"));
-        assertEquals(EXPECTED_CONTENT_TYPE, response.getHeaders().get("Content-Type"));
-        assertEquals(EXPECTED_STATUS_CODE_ERROR, response.getStatusCode());
+        String expectedMessage = "invalid input";
+        String actualMessage = exception.getMessage();
+
+        Assert.assertEquals(expectedMessage,actualMessage);
     }
 
     //@Test
     @DisplayName("El mensaje que ingresa esta incompleto")
     void testHandleRequestFormatoInvalido() {
         String input="{\"satelites\":[{\"name\":\"kenobi\",\"distance\":100.0,\"message\":[\"este\", \"\", \"\", \"mensaje\", \"\"]},{";
-        GatewayResponse response = (GatewayResponse) new FuegoQuasarHandler().handleRequest(gson.fromJson(input, Mensaje.class), mockLambdaContext);
+       String res =  new FuegoQuasarHandler().handleRequest(gson.fromJson(input, Mensaje.class), mockLambdaContext);
 
-        // Verify the response obtained matches the values we expect.
-        JSONObject jsonObjectFromResponse = new JSONObject(response.getBody());
-        assertEquals("java.io.EOFException: End of input at line 1 column 93 path $.satelites[1].", jsonObjectFromResponse.get("Output"));
-        assertEquals(EXPECTED_CONTENT_TYPE, response.getHeaders().get("Content-Type"));
-        assertEquals(EXPECTED_STATUS_CODE_ERROR, response.getStatusCode());
+        assertEquals("java.io.EOFException: End of input at line 1 column 93 path $.satelites[1].", res);
     }
 }
